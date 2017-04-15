@@ -1,0 +1,22 @@
+{
+  "name": "tagged-image-server",
+  "version": "1.0.0",
+  "description": "Server component of the Tagged-Image-Viewer project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lrobert142/tagged-image-server.git"
+  },
+  "author": "Lachlan Robertson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lrobert142/tagged-image-server/issues"
+  },
+  "homepage": "https://github.com/lrobert142/tagged-image-server#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
