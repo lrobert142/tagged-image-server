@@ -1,12 +1,43 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const dao = require('./lib/DAO');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({ dest: './res/uploads/' })
+
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-app.post('/', (req, res) => {
-  res.status(500).send("Not Yet Implemented");
+app.post('/', upload.single('image'), (req, res) => {
+  let title = req.body.title;
+  let tags = req.body.tags;
+  let file = req.file;
+
+  if(!title || !tags || !file) {
+    res.status(400).send("Missing some properties.");
+  } else {
+    let insertData = {
+      $title: title,
+      $tags: tags.join(),
+      $url: file.path
+    }
+
+    dao.insert(insertData, (err) => {
+      if (err) {
+        console.log("ERR:", err);
+        res.status(500).send("An unexpected error occurred.");
+      } else {
+        res.status(201).send();
+      }
+    });
+  }
+
 });
 
 app.listen(2000, function () {

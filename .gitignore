@@ -1,2 +1,9 @@
 # Node modules
 node_modules/
+
+# Resource files + uploads
+res/uploads/*
+res/db.sqlite
+
+#Junk files
+.DS_Store

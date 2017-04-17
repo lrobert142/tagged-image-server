@@ -33,7 +33,6 @@ describe("App.js", () => {
         .expect(400)
         .end((err, res) => {
           if (err) throw err;
-          alert("ERROR");
           done();
         });
     });
@@ -42,7 +41,7 @@ describe("App.js", () => {
       request(server)
         .post('/')
         .field('title', 'Lorem')
-        .field('tags', 'Ipsum,Dolor,Sit,Amet')
+        .field('tags', ['Ipsum', 'Dolor', 'Sit'])
         .attach('image', __dirname + '/test.png')
         .expect(201)
         .end((err) => {
