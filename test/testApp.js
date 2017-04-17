@@ -1,7 +1,6 @@
 /*jslint node: true */
 'use strict';
 
-// var hippie = require('hippie');
 var request = require('supertest');
 var server = require('../app.js');
 
@@ -15,7 +14,7 @@ var expect = require('chai').expect;
 
 describe("App.js", () => {
 
-  it("Should return a static message", () => {
+  it("Should return a static message", (done) => {
     request(server)
       .get('/')
       .expect(200)
@@ -25,36 +24,33 @@ describe("App.js", () => {
       });
   });
 
-  // describe("Create", () => {
-  //
-  //   it("400s if any fields are missing", () => {
-  //     hippie(server)
-  //       .json()
-  //       .post('/')
-  //       .send({})
-  //       .expectStatus(400)
-  //       .end((err) => {
-  //         if (err) throw err;
-  //         done();
-  //       });
-  //   });
-  //
-  //   it("201s if all fields are present", () => {
-  //     hippie(server)
-  //       .json()
-  //       .post('/')
-  //       .attach('image', __dirname + '/test.png')
-  //       .send({
-  //         title: "Lorem"
-  //         tags: "Ipsum,Dolor,Sit,Amet"
-  //       })
-  //       .expectStatus(400)
-  //       .end((err) => {
-  //         if (err) throw err;
-  //         done();
-  //       });
-  //   });
-  //
-  // });
+  describe("Create", () => {
+
+    it("400s if any fields are missing", (done) => {
+      request(server)
+        .post('/')
+        .send({})
+        .expect(400)
+        .end((err, res) => {
+          if (err) throw err;
+          alert("ERROR");
+          done();
+        });
+    });
+
+    it("201s if all fields are present", (done) => {
+      request(server)
+        .post('/')
+        .field('title', 'Lorem')
+        .field('tags', 'Ipsum,Dolor,Sit,Amet')
+        .attach('image', __dirname + '/test.png')
+        .expect(201)
+        .end((err) => {
+          if (err) throw err;
+          done();
+        });
+    });
+
+  });
 
 });

@@ -1,8 +1,12 @@
 var express = require('express');
 var app = express();
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+app.get('/', (req, res) => {
+  res.status(200).send('Hello World!');
+});
+
+app.post('/', (req, res) => {
+  res.status(500).send("Not Yet Implemented");
 });
 
 app.listen(2000, function () {
