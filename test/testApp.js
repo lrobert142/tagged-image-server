@@ -72,4 +72,21 @@ describe("App.js", () => {
 
   });
 
+  describe("Update", () => {
+
+    it("Updates the record with the specified ID", (done) => {
+      request(server)
+        .put('/1')
+        .field('title', 'Ipsum')
+        .field('tags', ['Lorem', 'Amet',])
+        .attach('image', __dirname + '/test.png')
+        .expect(200)
+        .end((err) => {
+          if (err) throw err;
+          done();
+        });
+    });
+
+  });
+
 });
