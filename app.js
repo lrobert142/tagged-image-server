@@ -1,15 +1,20 @@
 const express = require('express');
-const app = express();
+var cors = require('cors')
 const dao = require('./lib/DAO');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({ dest: './res/uploads/' })
+const path = require('path');
+const app = express();
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.use(cors());
+app.use('/res/uploads', express.static(path.join(__dirname, 'res/uploads')));
 
+// Create new entry
 app.post('/', upload.single('image'), (req, res) => {
   let title = req.body.title;
   let tags = req.body.tags;
@@ -35,6 +40,7 @@ app.post('/', upload.single('image'), (req, res) => {
   }
 });
 
+// Find all entries matching search
 app.get('/:search', (req, res) => {
   let search = req.params.search;
   let limit = req.params.limit || 20;
@@ -45,6 +51,7 @@ app.get('/:search', (req, res) => {
   })
 });
 
+// Update entry with ID
 app.put('/:id', upload.single('image'), (req, res) => {
   let id = req.params.id;
   let title = req.body.title;
@@ -73,7 +80,7 @@ app.put('/:id', upload.single('image'), (req, res) => {
 });
 
 app.listen(2000, function () {
-  console.log('Example app listening on port 2000!');
+  console.log('Server listening on port 2000');
 });
 
 module.exports = app;
