@@ -14,16 +14,6 @@ var expect = require('chai').expect;
 
 describe("App.js", () => {
 
-  it("Should return a static message", (done) => {
-    request(server)
-      .get('/')
-      .expect(200)
-      .end((err) => {
-        if (err) throw err;
-        done();
-      });
-  });
-
   describe("Create", () => {
 
     it("400s if any fields are missing", (done) => {
@@ -44,6 +34,36 @@ describe("App.js", () => {
         .field('tags', ['Ipsum', 'Dolor', 'Sit'])
         .attach('image', __dirname + '/test.png')
         .expect(201)
+        .end((err) => {
+          if (err) throw err;
+          done();
+        });
+    });
+
+  });
+
+  describe("Find", () => {
+
+    it("Returns all records containing the search text (all lowercase)", (done) => {
+      request(server)
+        .get('/lorem')
+        .expect(200)
+        .expect((res) => {
+          res.body.images.length > 0;
+        })
+        .end((err) => {
+          if (err) throw err;
+          done();
+        });
+    });
+
+    it("Returns all records containing the search text (mixed-case)", (done) => {
+      request(server)
+        .get('/LoReM')
+        .expect(200)
+        .expect((res) => {
+          res.body.images.length > 0;
+        })
         .end((err) => {
           if (err) throw err;
           done();

@@ -10,8 +10,13 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hello World!');
+app.get('/:search', (req, res) => {
+  let search = req.params.search;
+  let limit = req.params.limit || 20;
+
+  dao.get(search, limit, (err, rows) => {
+    res.status(200).json({images: rows});
+  })
 });
 
 app.post('/', upload.single('image'), (req, res) => {
@@ -19,7 +24,7 @@ app.post('/', upload.single('image'), (req, res) => {
   let tags = req.body.tags;
   let file = req.file;
 
-  if(!title || !tags || !file) {
+  if (!title || !tags || !file) {
     res.status(400).send("Missing some properties.");
   } else {
     let insertData = {
