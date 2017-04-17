@@ -1,7 +1,8 @@
 /*jslint node: true */
 'use strict';
 
-var hippie = require('hippie');
+// var hippie = require('hippie');
+var request = require('supertest');
 var server = require('../app.js');
 
 //Requires to stop code inspection notices
@@ -13,13 +14,47 @@ var chai = require('chai');
 var expect = require('chai').expect;
 
 describe("App.js", () => {
+
   it("Should return a static message", () => {
-    hippie(server)
+    request(server)
       .get('/')
-      .expectStatus(200)
+      .expect(200)
       .end((err) => {
         if (err) throw err;
         done();
-      })
+      });
   });
+
+  // describe("Create", () => {
+  //
+  //   it("400s if any fields are missing", () => {
+  //     hippie(server)
+  //       .json()
+  //       .post('/')
+  //       .send({})
+  //       .expectStatus(400)
+  //       .end((err) => {
+  //         if (err) throw err;
+  //         done();
+  //       });
+  //   });
+  //
+  //   it("201s if all fields are present", () => {
+  //     hippie(server)
+  //       .json()
+  //       .post('/')
+  //       .attach('image', __dirname + '/test.png')
+  //       .send({
+  //         title: "Lorem"
+  //         tags: "Ipsum,Dolor,Sit,Amet"
+  //       })
+  //       .expectStatus(400)
+  //       .end((err) => {
+  //         if (err) throw err;
+  //         done();
+  //       });
+  //   });
+  //
+  // });
+
 });
