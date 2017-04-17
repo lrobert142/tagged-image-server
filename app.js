@@ -43,22 +43,42 @@ app.post('/', upload.single('image'), (req, res) => {
 // Get all entries
 app.get('/all', (req, res) => {
   let limit = req.params.limit || 20;
+  let images = [];
 
   dao.all(limit, (err, rows) => {
-    //TODO Transform tags back to arrays
-    res.status(200).json({images: rows});
-  })
+    rows.forEach((row) => {
+      let tags = row.tags.split(',');
+      images.push({
+        id: row.id,
+        title: row.title,
+        tags: tags,
+        url: row.url
+      });
+    });
+
+    res.status(200).json({images: images});
+  });
 });
 
 // Find all entries matching search
 app.get('/search/:search', (req, res) => {
   let search = req.params.search;
   let limit = req.params.limit || 20;
+  let images = [];
 
   dao.get(search, limit, (err, rows) => {
-    //TODO Transform tags back to arrays
-    res.status(200).json({images: rows});
-  })
+    rows.forEach((row) => {
+      let tags = row.tags.split(',');
+      images.push({
+        id: row.id,
+        title: row.title,
+        tags: tags,
+        url: row.url
+      });
+    });
+
+    res.status(200).json({images: images});
+  });
 });
 
 // Update entry with ID
