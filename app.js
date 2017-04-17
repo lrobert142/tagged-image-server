@@ -40,8 +40,18 @@ app.post('/', upload.single('image'), (req, res) => {
   }
 });
 
+// Get all entries
+app.get('/all', (req, res) => {
+  let limit = req.params.limit || 20;
+
+  dao.all(limit, (err, rows) => {
+    //TODO Transform tags back to arrays
+    res.status(200).json({images: rows});
+  })
+});
+
 // Find all entries matching search
-app.get('/:search', (req, res) => {
+app.get('/search/:search', (req, res) => {
   let search = req.params.search;
   let limit = req.params.limit || 20;
 

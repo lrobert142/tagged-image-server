@@ -42,11 +42,28 @@ describe("App.js", () => {
 
   });
 
-  describe("Find", () => {
+  describe("All", () => {
+
+    it("Returns all records", (done) => {
+      request(server)
+        .get('/all')
+        .expect(200)
+        .expect((res) => {
+          res.body.images.length > 0;
+        })
+        .end((err) => {
+          if (err) throw err;
+          done();
+        });
+    });
+
+  });
+
+  describe("Search", () => {
 
     it("Returns all records containing the search text (all lowercase)", (done) => {
       request(server)
-        .get('/lorem')
+        .get('/search/lorem')
         .expect(200)
         .expect((res) => {
           res.body.images.length > 0;
@@ -59,7 +76,7 @@ describe("App.js", () => {
 
     it("Returns all records containing the search text (mixed-case)", (done) => {
       request(server)
-        .get('/LoReM')
+        .get('/search/LoReM')
         .expect(200)
         .expect((res) => {
           res.body.images.length > 0;
